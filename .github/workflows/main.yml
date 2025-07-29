@@ -24,6 +24,10 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: /****/ Build & Push Docker Image to ECR /****/
+        env:
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
+            --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
             --build-arg NEXT_PUBLIC_ENV=${{ env.NEXT_PUBLIC_ENV }} \
+            -t $IMAGE_TAG .
